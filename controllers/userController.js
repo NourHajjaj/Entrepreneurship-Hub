@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 
+// retrieve the specified user from the database (by email)
 exports.getUser = async (req,res) => {
     try{
 
@@ -20,6 +21,7 @@ exports.getUser = async (req,res) => {
     }
 }
 
+// retrieve all users from the database
 exports.getAllUsers = async (req,res) => {
     try{
 
@@ -37,6 +39,7 @@ exports.getAllUsers = async (req,res) => {
     }
 }
 
+// update user name field based on email
 exports.updateUser = async (req,res) => {
     try{
 
@@ -63,6 +66,7 @@ exports.updateUser = async (req,res) => {
     }
 }
 
+// delete a user based on their email
 exports.deleteUser = async (req,res) => {
     try{
 
@@ -82,6 +86,7 @@ exports.deleteUser = async (req,res) => {
     }
 }
 
+// delete all users in database
 exports.deleteAllUsers = async (req,res) => {
     try{
 
