@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
+    itemOwner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "NGO",
+        required:true
+    },
     name: {
         type: String,
         trim:true,
@@ -23,6 +28,16 @@ const itemSchema = new mongoose.Schema({
         required:true,
         trim:true,
         default: 0
+    },
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            refPath: "onModel"
+        },
+    ],
+    onModel: {
+        type: String,
+        enum: ["User","NGO"]
     }
 },{timestamps: true});
 
