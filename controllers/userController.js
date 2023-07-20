@@ -39,6 +39,62 @@ exports.getAllUsers = async (req,res) => {
     }
 }
 
+// change password
+exports.changePassword = async (req,res) => {
+    try{
+
+        // oldPassword
+        // newPassword
+        // confirmNewPassword
+
+        // make sure all fields are sent
+        if(req.body.oldPassword == '' ||
+            req.body.newPassword == '' ||
+            req.body.confirmNewPassword == ''){
+                return res.status(400).send({
+                    success: false,
+                    message: 'All fields are required'
+                });
+            }
+        
+        if(req.body.oldPassword == req.body.newPassword){
+            return res.status(400).send({
+                success: false,
+                message: 'New password should be different from the old one'
+            });
+        }
+
+        const user = await User.findById(req.params.id);
+        
+        if(!(await user.comparePasswords(req.body.oldPassword, user.password))){
+            return res.status(400).send({
+                success: false,
+                message: 'Old password does not match the one stored in database'
+            });
+        }
+
+        if(req.body.newPassword != req.body.confirmNewPassword){
+            return res.status(400).send({
+                success: false,
+                message: 'New password and confirm new password should be identical'
+            });
+        }
+
+        user.password = req.body.newPassword;
+
+        await user.save();
+
+        return res.status(200).send({
+            success: true,
+            message: 'Password was updated successfully'
+        });
+
+    }catch(err){
+        console.log(err);
+        return res.status(500).send({message:err.message});
+    }
+}
+
 // update user name field based on email
 exports.updateUser = async (req,res) => {
     try{

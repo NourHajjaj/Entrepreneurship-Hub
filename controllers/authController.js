@@ -23,8 +23,8 @@ exports.register = async (req,res,next) => {
         }
 
         // encrypt la password
-        const encryptPass = await bcrypt.genSalt(12);
-        req.body.password = await bcrypt.hash(req.body.password,encryptPass);
+        // const encryptPass = await bcrypt.genSalt(12);
+        // req.body.password = await bcrypt.hash(req.body.password,encryptPass);
 
         // create user
         const newUser = await User.create(req.body);
@@ -46,7 +46,8 @@ exports.login = async (req,res,next) => {
             return res.status(409).send({message:'User does not exist please sign up before logging in'});
         }
         // validate lal password
-        const validatePassword = await bcrypt.compare(req.body.password, user.password);
+        // const validatePassword = await bcrypt.compare(req.body.password, user.password);
+        const validatePassword = await user.comparePasswords(req.body.password,user.password);
         if(!validatePassword){
             return res.status(400).json({message:'email or password is incorrect'});
         }
